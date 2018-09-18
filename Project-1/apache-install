@@ -82,5 +82,12 @@ function startServices{
 	service httpd start
 	echo -e "OK\n" | tee -a "log_file"
 }
-
+#main
+touchLog
+apacheInstall
+firewallConf
+certCreate
+apachConf
+creatDir
+startServices
 echo "Finally Done" | tee -a "log_file"
