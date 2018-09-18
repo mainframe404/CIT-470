@@ -1,22 +1,86 @@
-#!/bin/bash
-echo "Downloading download apache 2.2.0"
-wget https://archive.apache.org/dist/httpd/httpd-2.2.0.tar.gz
-wget https://archive.apache.org/dist/httpd/httpd-2.2.0.tar.gz.md5
+#!/bin/bash 
 
-#Will verify the downloaded apache source code file is genuine
-md5sum  -c  httpd-2.2.0.tar.gz.md5
+#global vars to use in the other functions
+ipAddress=10.2.7.244
+emailAddress=cit470.fa2018.team.5@gmail.com
+groupName="cit470 Group 5"
 
-#unzip the tar file
-tar xvf httpd-2.2.0.tar.gz 
+#creates log file
+function touchLog {
+	touch log_file
+}
 
-#will change directory of the unzip file
-cd httpd-2.2.0
+function apacheInstall {
+	echo "Installing OpenSSL Apache," >> log_file
+	wget https://archive.apache.org/dist/httpd/httpd-2.2.0.tar.gz >> log_file
+	tar xvf httpd-2.2.0.tar.gz >> log_file
+	cd httpd-2.2.0
+	./configure -prefix=/usr/local/apache
+	make
+	make install
 
-# compile, build, install Apache 
-./configure -prefix=/usr/local/apache
- 
-make
- 
-make install
+	yum install -y mod_ssl openssl
+	echo -e "OK\n"
+}
 
-/usr/local/apache/bin/apachectl start
+#this updates the firewall to accept ports 80 and 443
+function firewallConf {
+	echo "updating firewall rules" | tee -a "log_file"
+	iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+	iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+	iptables-save >> /etc/sysconfig/iptables
+	echo -e "OK\n" | tee -a "log_file"
+}
+
+#generats private key and the self-signed cert
+function certCreate {
+	groupName=$3
+	emailAddress=$2
+	echo "generation private key and the self-signed cert" | tee -a "log_file"
+	openssl genrsa -out /etc/pki/tls/private/apacheprivatekey.key
+	openssl req -new -key /etc/pki/tls/private/apacheprivatekey.key -out /etc/pki/tls/private/apachecsr.csr -subj "/C=US/ST=Kentucky/L=Highland Heights/O=Northern Kentucky University/OU=\$groupName/CN=\$HOSTNAME/emailAddress=\$emailAddress" 
+    openssl x509 -req -days 365 -in /etc/pki/tls/private/apachecsr.csr -signkey /etc/pki/tls/private/apacheprivatekey.key -out /etc/pki/tls/certs/apachecertificate.crt 
+    echo -e "OK\n" | 
+}
+
+function apachConf {
+	ipAddress=$1
+	echo "Config Apache" | tee -a "log_file"
+	sed -i "s/#ServerName www.example.com:80/ServerName $ipAddress:80/" /etc/httpd/conf/httpd.conf
+	sed -i "s/ServerAdmin root@localhost/ServerAdmin $emailAddress/" /etc/httpd/conf/httpd.conf
+	echo -e "\n### Global Rewrite Rules\n" >> /etc/httpd/conf/httpd.conf
+	echo "RewriteEngine On" >> /etc/httpd/conf/httpd.conf
+	echo -e "RewriteRule ^/users/(.*)$ http://%{SERVER_NAME}/~\$1 [R]" >> /etc/httpd/conf/httpd.conf
+	sed -i "228i### Rewrite Rules for HTTPS\n" /etc/httpd/conf.d/ssl.conf
+	sed -i "230iRewriteEngine On" /etc/httpd/conf.d/ssl.conf
+	sed -i "231iRewriteRule ^/users/(.*)$ https://%{SERVER_NAME}/~\$1 [R]" /etc/httpd/conf.d/ssl.conf
+	#This enables the userDir module and configures apache for user hosted sites
+	sed -i "s/UserDir disable/#UserDir disable/" /etc/httpd/conf/httpd.conf
+	sed -i "s/#UserDir public_html/UserDir public_html/" /etc/httpd/conf/httpd.conf
+	sed -i "370,381 s/#/ /" /etc/httpd/conf/httpd.conf
+	echo -e "OK\n" | tee -a "log_file"
+}
+
+#creates user home dir and sets the correct permissions
+function creatDir {
+	echo "creating the public_html dir for the users" | tee -a "log_file"
+	setsebool -P httpd_enable_homedirs true
+	for userDir in $(ls /home); do
+		if [! -d /home/$userDir/public_html ]; then
+			mkdir /home/$userDir/public_html
+			chmod 711 /home/$userDir
+			chmod 755 /home/$userDir/public_html
+			chown $userDir /home/$userDir/public_html
+			chgrp $userDir /home/$userDir/public_html
+		fi
+	done
+	echo -e "OK\n" | tee -a "log_file"
+}
+
+function startServices{
+	echo "Startign apache now" | tee -a "log_file"
+	service httpd start
+	echo -e "OK\n" | tee -a "log_file"
+}
+
+echo "Finally Done" | tee -a "log_file"
