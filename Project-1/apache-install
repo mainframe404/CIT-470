@@ -15,7 +15,7 @@ function apacheInstall {
 	wget https://archive.apache.org/dist/httpd/httpd-2.2.0.tar.gz >> log_file
 	tar xvf httpd-2.2.0.tar.gz >> log_file
 	cd httpd-2.2.0
-	./configure -prefix=/usr/local/apache
+	./configure -prefix=/usr/local/apache --enable-so
 	make
 	make install
 
