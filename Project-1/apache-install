@@ -35,15 +35,15 @@ function certCreate {
 #configs apache
 function apachConf {
         echo "Config Apache" | tee -a $logFile
-        sed -i "s/#ServerName www.example.com:80/ServerName $ipAddress:80/" /etc/httpd/conf/httpd.conf
-        sed -i "s/ServerAdmin root@localhost/ServerAdmin $emailAddress/" /etc/httpd/conf/httpd.conf
-        echo -e "\n### Global Rewrite Rules\n" >> /etc/httpd/conf/httpd.conf
+        sed -i "s/#ServerName www.example.com:80/ServerName $ipAddress:80/" /usr/local/apache/conf/httpd.conf
+        sed -i "s/ServerAdmin root@localhost/ServerAdmin $emailAddress/" /usr/local/apache/conf/httpd.conf
+        echo -e "\n### Global Rewrite Rules\n" >> /usr/local/apache/conf/httpd.conf
 	sed -i "RewriteEngine On" /etc/httpd/conf/httpd.conf
-        sed -i "RewriteRule ^/users/(.*)$ https://%{SERVER_NAME}/~\$1 [R]" /etc/httpd/conf/httpd.conf
+        sed -i "RewriteRule ^/users/(.*)$ https://%{SERVER_NAME}/~\$1 [R]" /usr/local/apache/conf/httpd.conf
         #This enables the userDir module and configures apache for user hosted sites
-        sed -i "s/UserDir disable/#UserDir disable/" /etc/httpd/conf/httpd.conf
-        sed -i "s/#UserDir public_html/UserDir public_html/" /etc/httpd/conf/httpd.conf
-        sed -i "370,381 s/#/ /" /etc/httpd/conf/httpd.conf
+        sed -i "s/UserDir disable/#UserDir disable/" /usr/local/apache/conf/httpd.conf
+        sed -i "s/#UserDir public_html/UserDir public_html/" /usr/local/apache/conf/httpd.conf
+        sed -i "370,381 s/#/ /" /usr/local/apache/conf/httpd.conf
         echo -e "OK\n" | tee -a $logFile
 
 }
