@@ -43,7 +43,7 @@ function apachConf {
         sed -i "s/#ServerName www.example.com:80/ServerName $ipAddress:80/" /usr/local/apache/conf/httpd.conf
         sed -i "s/ServerAdmin you@example.com/ServerAdmin $emailAddress/" /usr/local/apache/conf/httpd.conf
         echo -e "\n### Global Rewrite Rules\n" >> /usr/local/apache/conf/httpd.conf
-	sed -i "RewriteEngine On" /etc/httpd/conf/httpd.conf
+	 sed -i "RewriteEngine On" /etc/httpd/conf/httpd.conf
         sed -i "RewriteRule ^/users/(.*)$ https://%{SERVER_NAME}/~\$1 [R]" /usr/local/apache/conf/httpd.conf
         #This enables the userDir module and configures apache for user hosted sites
         sed -i "s/UserDir disable/#UserDir disable/" /usr/local/apache/conf/httpd.conf
