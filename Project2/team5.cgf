@@ -1,0 +1,83 @@
+#version=DEVEL
+  
+
+
+# Run the Setup Agent on first boot
+firstboot --enable
+ignoredisk --only-use=sda
+
+# Keyboard layouts
+keyboard --vckeymap=us --xlayouts='us'
+# System language
+lang en_US.UTF-8
+
+# Network information
+network  --bootproto=dhcp --device=ens33 --onboot=off --ipv6=auto --activate
+network  --hostname=CIT470-001_Team5_c1.hh.nku.edu
+
+# Root password
+rootpw --iscrypted $6$N/E2jFw/hcLl0W7W$CtMxBmlr0v5ONQIziJ6j50G4dXs.pfEU6hobN.xyHcqMTvADr3iHNKkdi1p9Xdn/qIxrU4KVUjVdYcpYVTjoE.
+
+# System services
+services --enabled="chronyd"
+# System timezone
+timezone America/New_York --isUtc
+# System bootloader configuration
+bootloader --append=" crashkernel=auto" --location=mbr --boot-drive=sda
+#autopart --type=lvm
+# Partition clearing information
+clearpart --all --initlabel
+
+#Disk partitioning information
+part /var --fstype="xfs" --ondisk=sda --size=2000
+part swap --fstype="swap" --ondisk=sda --size=512
+part / --fstype="xfs" --ondisk=sda --size=7500
+
+#Config commands
+reboot
+
+%post --interpreter=/usr/bin/bash --log=/root/ks-post.log
+echo "\n***Log file is generated to store all the logs**\n" | tee -a "logfile"
+touch logfile
+
+echo "10.2.7.244:/home /home nfs defaults 0 0 ">> /etc/fstab
+
+echo "\n**nstalling openldap-clients....\n" | tee -a "logfile"
+yum install openldap-clients -y >> logfile
+
+echo "\n**Backing up the configuration file of LDAP**\n" | tee -a "logfile"
+cp /etc/openldap/ldap.conf /etc/openldap/ldap.conf.backup
+
+echo "\n***Configuring the  LDAP-Client***\n" | tee -a "logfile"
+
+echo "HOST     10.2.7.239:389\nBASE     dc=CIT470_001-Team5_s1,dc=hh,dc=nku,dc=edu\n" > /etc/openldap/ldap.conf
+cat /etc/openldap/ldap.conf.backup >> /etc/openldap/ldap.conf
+
+
+
+#yum updates
+yum update -y
+yum install wget -y
+yum install net-tools -y
+
+
+
+%end
+
+%packages
+@^minimal
+@core
+chrony
+kexec-tools
+
+%end
+
+%addon com_redhat_kdump --enable --reserve-mb='auto'
+
+%end
+
+%anaconda
+pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
+pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+%end
