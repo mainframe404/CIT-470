@@ -53,7 +53,7 @@ cp /etc/openldap/ldap.conf /etc/openldap/ldap.conf.backup
 
 echo "\n***Configuring the  LDAP-Client***\n" | tee -a "logfile"
 
-echo "HOST     10.2.7.239:389\nBASE     dc=CIT470_001-Team5_s1,dc=hh,dc=nku,dc=edu\n" > /etc/openldap/ldap.conf
+echo "HOST     10.2.7.244:389\nBASE     dc=CIT470_001-Team5_s1,dc=hh,dc=nku,dc=edu\n" > /etc/openldap/ldap.conf
 cat /etc/openldap/ldap.conf.backup >> /etc/openldap/ldap.conf
 
 
