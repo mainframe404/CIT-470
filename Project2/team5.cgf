@@ -1,6 +1,9 @@
 #version=DEVEL
   
-
+# Use CDROM installation media
+cdrom
+# Use graphical install
+cmdline
 
 # Run the Setup Agent on first boot
 firstboot --enable
