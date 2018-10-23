@@ -26,8 +26,8 @@ function backUpConfig{
 
 	#Starting the  LDAP service
 	systemctl start slapd.service
-	systemctl status slapd.service
-	ps auxw | grep slapd
+	#systemctl status slapd.service
+	#ps auxw | grep slapd
 
 
 	#Configuring the firewall on LDAP Server
@@ -45,7 +45,7 @@ function firewallsetup(){
 	firewall-cmd --reload
 
 	# View FirewallD configuration
-	firewall-cmd --list-all | tee -a "logfile"
+	#firewall-cmd --list-all | tee -a "logfile"
 }
 
 #Deleting The Old LDAP Database And Install nss_ldap packages
@@ -86,7 +86,7 @@ function migrateData(){
 
 	#Add the schemas to support  the object classes and the attributes
 	echo "\nStarting the LDAP services**\n" | tee -a "logfile"
-	systemctl start slapd.service
+	systemctl restart slapd.service
 
 	echo "\nAdding the Schemas****\n" | tee -a "logfile"
 	ldapadd -Y EXTERNAL -H ldapi:// -f /etc/openldap/schema/core.ldif
