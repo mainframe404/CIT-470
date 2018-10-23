@@ -1,6 +1,6 @@
 #!/bin/bash
 #This script installs OpenLDAP and is included in main script
-function backUpConfig{
+function backUpConfig(){
 	#To record all the logs
 	touch logfile
 
@@ -10,16 +10,16 @@ function backUpConfig{
 	#Configuring the ldap sever
 	# Backing up the config file
 	echo "\n Backing up the  olcDatabase={2}hdb.ldif\n" | tee -a "logfile"
-	cp /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{2\}hdb.ldif /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{2\}hdb.ldif.backup
+	cp /etc/openldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif /etc/openldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif.backup
 
 	#Configuring LDAP server
 	echo "\nConfiguring olcDatabase={2}hdb.ldif file\n" | tee -a "logfile"
-	sed -i '/olcSuffix: dc=my-domain,dc=com/c\olcSuffix: dc=CIT470_001-Team5_s1,dc=hh,dc=nku,dc=edu' /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{2\}hdb.ldif >> logfile
-	sed -i '/olcRootDN: cn=Manager,dc=my-domain,dc=com/c\olcRootDN: cn=Manager, dc=CIT470_001-Team5_s1,dc=hh,dc=nku,dc=edu' /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{2\}hdb.ldif >> logfile
+	sed -i '/olcSuffix: dc=my-domain,dc=com/c\olcSuffix: dc=CIT470_001-Team5_s1,dc=hh,dc=nku,dc=edu' /etc/openldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif >> logfile
+	sed -i '/olcRootDN: cn=Manager,dc=my-domain,dc=com/c\olcRootDN: cn=Manager, dc=CIT470_001-Team5_s1,dc=hh,dc=nku,dc=edu' /etc/openldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif >> logfile
 
 	#Configuring the root password for LDAP
 	echo "\nConfiguring the root password for LDAP***\n" | tee -a "logfile"
-	echo "olcRootPW: student" >> /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{2\}hdb.ldif
+	echo "olcRootPW: student" >> /etc/openldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif
 
 	#Configuring the LDAP to start on the boot 
 	systemctl enable slapd
@@ -83,10 +83,10 @@ function migrateData(){
 	systemctl restart slapd.service
 
 	echo "\nAdding the Schemas****\n" | tee -a "logfile"
-	ldapadd -Y EXTERNAL -H ldapi:// -f /etc/openldap/schema/core.ldif
-	ldapadd -Y EXTERNAL -H ldapi:// -f /etc/openldap/schema/cosine.ldif
-	ldapadd -Y EXTERNAL -H ldapi:// -f /etc/openldap/schema/nis.ldif
-	ldapadd -Y EXTERNAL -H ldapi:// -f /etc/openldap/schema/inetorgperson.ldif
+	ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/core.ldif
+	ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
+	ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif
+	ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
 
 	echo "\nStopping the LDAP services and fixing the ownership of the files***\n" | tee -a "logfile"
 	systemctl stop slapd.services
@@ -121,11 +121,11 @@ function migrateData2(){
 }
 
 #CONFIGURING THE ACL
-function configAcl{
+function configAcl(){
 
 	echo "\nConfiguring olcDatabase={2}hdb.ldif file\n" | tee -a "logfile"
-	echo "olcAccess: {0}to attrs=userPassword, by self write by anonymous auth by * none" >> /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{2\}hdb.ldif
-	echo "\nolcAccess: {1} to * by self write by * read" >> /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{2\}hdb.ldif
+	echo "olcAccess: {0}to attrs=userPassword, by self write by anonymous auth by * none" >> /etc/openldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif
+	echo "\nolcAccess: {1} to * by self write by * read" >> /etc/openldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif
 
 	echo "\nRestarting the  slapd service....\n" | tee -a "logfile"
 	systemctl restart slapd.service >> logfile
@@ -142,7 +142,11 @@ function createUser(){
 	sed -i '/USERBASE="ou=Users,ou=Accounts,o=System"/c\USERBASE="ou=People,dc=CIT470_001-Team5_s1,dc=hh,dc=nku,dc=edu"' /usr/local/diradm-1.3/diradm.conf >> logfile
 	sed -i '/GROUPBASE="ou=Groups,ou=Accounts,o=System"/c\GROUPBASE="ou=Group,dc=CIT470_001-Team5_s1,dc=hh,dc=nku,dc=edu"' /usr/local/diradm-1.3/diradm.conf >> logfile
 
+		
+	
 }
+
+
 
 backUpConfig
 firewallsetup
