@@ -71,4 +71,4 @@ addPart()
 editExports()
 nfsSetup()
 editFirewall()
-print "NFS Setup complete"
+puts "NFS Setup complete"
