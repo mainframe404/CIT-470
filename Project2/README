@@ -1,0 +1,20 @@
+To grab these files you will need to go to CIT470-001_Team5_s1.hh.nku.edu
+
+The install-ldap-server.sh script will preform the following tasks:
+  installes and configures the LDAP Server
+  
+The install-ldap-client will preform the following tasks:
+  installes and configures the LDAP Client
+  
+The install-nfs-server will preform the following tasks:
+  installs and configures NFS on the server
+  
+The team5.cfg will preform the following tasks:
+  install centos 7
+  set the root password
+  confiure nfs for the clients
+
+After each script has ran there will be a log file in the directory that you ran the script in.
+This file will be named logfile.
+
+The password for the client will be Kalilinux78 
