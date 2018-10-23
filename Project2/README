@@ -1,4 +1,4 @@
-To grab these files you will need to go to CIT470-001_Team5_s1.hh.nku.edu
+To grab these files you will need to go to 10.2.7.244
 
 The install-ldap-server.sh script will preform the following tasks:
   installes and configures the LDAP Server
