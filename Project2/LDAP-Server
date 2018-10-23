@@ -26,9 +26,6 @@ function backUpConfig{
 
 	#Starting the  LDAP service
 	systemctl start slapd.service
-	#systemctl status slapd.service
-	#ps auxw | grep slapd
-
 
 	#Configuring the firewall on LDAP Server
 	#Adding  the Firewall rules
@@ -43,9 +40,6 @@ function firewallsetup(){
 
 	#Reloading firewall services
 	firewall-cmd --reload
-
-	# View FirewallD configuration
-	#firewall-cmd --list-all | tee -a "logfile"
 }
 
 #Deleting The Old LDAP Database And Install nss_ldap packages
