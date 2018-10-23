@@ -14,7 +14,6 @@ def addPart()
                 p o.read
                 t.join
         }
-
         `sudo partprobe /dev/sda`
         `sudo mkfs.xfs -f /dev/sda4`
         `sudo xfs_repair /dev/sda4`
