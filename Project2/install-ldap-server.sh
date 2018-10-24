@@ -141,7 +141,7 @@ function createUser(){
 	sed -i '/BINDDN="cn=Admin,o=System"/c\BINDDN="cn=Manager,dc=CIT470_001-Team5_s1,dc=hh,dc=nku,dc=edu"' /usr/local/diradm-1.3/diradm.conf >> logfile
 	sed -i '/USERBASE="ou=Users,ou=Accounts,o=System"/c\USERBASE="ou=People,dc=CIT470_001-Team5_s1,dc=hh,dc=nku,dc=edu"' /usr/local/diradm-1.3/diradm.conf >> logfile
 	sed -i '/GROUPBASE="ou=Groups,ou=Accounts,o=System"/c\GROUPBASE="ou=Group,dc=CIT470_001-Team5_s1,dc=hh,dc=nku,dc=edu"' /usr/local/diradm-1.3/diradm.conf >> logfile
-
+        ./diradm useradd -c "LDAP Test Team5" -s /bin/bash -m -p "student" team5
 		
 	
 }
