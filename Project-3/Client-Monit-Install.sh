@@ -4,7 +4,7 @@
 
 #server IP parameter
 SERV=$1
-
+function installPack() {
 #Installing Sendmail and Start Sendmail 
 yum install sendmail -y
 systemctl start sendmail
@@ -14,7 +14,8 @@ systemctl enable sendmail
 yum install epel-release -y
 yum install monit -y
 yum install stress -y
-
+}
+function getFile() {
 #Getting Client Monit File
 cd ~
 wget http://10.2.7.244/Client-Monit-Install
@@ -27,16 +28,14 @@ yes | cp Client-Monit-Install /etc/monitrc
 
 #Initiating Monit 
 systemctl start monit
-
 #Backing Up rsyslog.conf
 cp /etc/rsyslog.conf /etc/rsyslog.conf.BACK
-
 #Modifying rsyslog.conf
 sed -i 's/#*.* @@remote-host:514/*.* @'$SERV':514/g' /etc/rsyslog.conf
 systemctl restart rsyslog
-
-
 #Cleaning Up
 yes | rm Client-Monit-Install
-
 echo "Monit Configuration Complete!"
+}
+installPack
+getFile
