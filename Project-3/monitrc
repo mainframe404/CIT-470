@@ -318,8 +318,17 @@ set httpd port 2812 and
      stop program ="/usr/bin/systemctl stop slapd"
      if 5 restarts within 5 cycles then timeout
  
- #check host myserver with address 10.
- #    if failed ping  with timeout 15 seconds then alert
+check host myserver1 with address 10.2.7.240
+    if failed ping  with timeout 15 seconds then alert
+    
+check host myserver2 with address 10.2.7.241
+    if failed ping  with timeout 15 seconds then alert
+    
+check host myserver3 with address 10.2.7.242
+    if failed ping  with timeout 15 seconds then alert
+    
+ check host myserver4 with address 10.2.7.243
+    if failed ping  with timeout 15 seconds then alert
  ###############################################################################
  ## Includes
  ###############################################################################
