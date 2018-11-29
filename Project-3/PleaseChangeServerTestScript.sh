@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+function killServices() {
 printf "\nTesting Server Monitoring Service....\n"
 
 printf "\nKilling sendmail process....\n"
@@ -20,7 +20,8 @@ pkill nfs
 
 printf "\nKilling httpd process....\n"
 pkill httpd
-
+}
+function testingNow() {
 printf "\nTesting takes 90 seconds to collect logs. \nPlease wait....\n"
 sleep 90s
 tail -n 30 /var/log/messages | tee -a "alerts_services"
@@ -38,7 +39,8 @@ firewall-cmd --zone=public --remove-port=2049/tcp --permanent
 firewall-cmd --zone=public --remove-port=111/tcp --permanent
 firewall-cmd --zone=public --remove-port=636/tcp --permanent
 firewall-cmd --reload
-
+}
+function fixMe() {
 printf "\nPlease wait....\n"
 sleep 90s
 
@@ -65,3 +67,7 @@ stress -c 8 -d 1 --hdd-bytes 5.5G --vm-bytes $(awk '/MemFree/{printf "%d\n", $2 
 sleep 45s
 tail -n 30 /var/log/messages | tee -a "alerts_local"
 printf "\nSystem tests succeeded.\n"
+}
+killServices
+testingNow
+fixMe
