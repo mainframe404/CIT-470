@@ -155,7 +155,7 @@ set alert root@localhost                       # receive all alerts
 ## enable SSL for the HTTP interface.
 #
 set httpd port 2812 and
-     use address localhost  # only accept connection from localhost
+     use address 10.2.7.244  # only accept connection from localhost
      allow localhost        # allow localhost to connect to the server and
      allow admin:monit      # require user 'admin' with password 'monit'
      #with ssl {            # enable SSL/TLS and set path to server certificate
