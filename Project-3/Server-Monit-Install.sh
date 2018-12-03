@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #SendMail and Monit Are Installed 
 
 echo "Installing The  Sendmail" | tee -a "logfile"
