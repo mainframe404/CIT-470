@@ -1,31 +1,29 @@
 #!/bin/bash
-
 #Client Monit Testing
-
 #Testing The Service Monitoring
 
-echo-e "\nTesting The Service Monitoring. \n"
+echo "Testing The Service Monitoring."
 
   #Kill sendmail process
-  echo -e "Stopping The Sendmail process. \n"
+  echo "Stopping The Sendmail process."
   pkill sendmail
   
   #Kill SSH
-  echo -e "Stopping The  SSH Process. \n"
+  echo "Stopping The SSH process."
   pkill sshd
 
   #Kill syslog process
-  echo -e "Stopping The Syslog Process. \n"
+  echo "Stopping the Syslog process."
   pkill rsyslog
-  echo -e "Testing takes 30 seconds to collect logs. \nPlease wait... \n"
+  echo "Testing takes 30 seconds to collect logs. Please wait..."
   sleep 30s
   tail -n 15 /var/log/messages
-  echo -e "\nMonit Sended The  Alerts and Restarted The Services. \n"
+  echo "Monit sent the alerts and restarted the services."
 
 #Test The  RAM, CPU, and Disk Usage
-  echo -e "Testing RAM, CPU, and Disk Usage \n"
-  echo -e "Testing takes Few minutes To Collect  The Logs. \nPlease wait... \n"
+  echo "Testing RAM, CPU, and Disk Usage"
+  echo "Testing takes few minutes to collect the logs. Please wait..."
   #stress -c 8 -d 1 --hdd-bytes 5.5G --vm-bytes $(awk '/MemFree/{printf "%d\n", $2 * 0.9;}' < /proc/meminfo)k --vm-keep -m 1 -t 200s
   sleep 30s
   tail -n 15 /var/log/messages
-  echo -e "\n Test Successfull."
+  echo "Test Successful."
