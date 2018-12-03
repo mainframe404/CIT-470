@@ -2,29 +2,27 @@
 
 #SendMail and Monit Are Installed 
 
-echo "\nInstalling The  Sendmail****\n" | tee -a "logfile"
+echo "Installing The  Sendmail" | tee -a "logfile"
 yum install sendmail -y >> logfile
 
-echo "\nStarting The Sendmail****\n" | tee -a "logfile"
+echo "Starting The Sendmail" | tee -a "logfile"
 systemctl start sendmail >> logfile
 
-echo "\nEnabling The Sendmail****\n" | tee -a "logfile"
+echo "Enabling The Sendmail" | tee -a "logfile"
 systemctl enable sendmail >> logfile
 
-
-
-echo "\nInstalling epel-release***\n" | tee -a "logfile"
+echo "Installing epel-release" | tee -a "logfile"
 yum install epel-release -y >> logfile
 
-echo "\nInstalling Stress For The Testing Purpose***\n" >> logfile
+echo "Installing Stress For The Testing Purpose" >> logfile
 yum install stress -y >> logfile
 
-echo "\nInstalling The Monit***\n" | tee -a "logfile"
+echo "Installing The Monit" | tee -a "logfile"
 yum install monit -y >> logfile
 
-echo "\nAttempting To Run Monit***\n" | tee -a "logfile"
+echo "Attempting To Run Monit" | tee -a "logfile"
 monit -h | tee -a "logfile"
 
-firewall-cmd -- zone=public -- add-port=514/udp -–permanent >> logfile
-firewall-cmd -- reload >> logfile
-firewall-cmd -- list-all >> logfile
+firewall-cmd --zone=public --add-port=514/udp --permanent >> logfile
+firewall-cmd --reload >> logfile
+firewall-cmd --list-all >> logfile
