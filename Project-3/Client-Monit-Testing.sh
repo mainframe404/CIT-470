@@ -23,7 +23,7 @@ echo "Testing The Service Monitoring."
 #Test The  RAM, CPU, and Disk Usage
   echo "Testing RAM, CPU, and Disk Usage"
   echo "Testing takes few minutes to collect the logs. Please wait..."
-  #stress -c 8 -d 1 --hdd-bytes 5.5G --vm-bytes $(awk '/MemFree/{printf "%d\n", $2 * 0.9;}' < /proc/meminfo)k --vm-keep -m 1 -t 200s
+  stress -c 8 -d 1 --hdd-bytes 5.5G --vm-bytes $(awk '/MemFree/{printf "%d\n", $2 * 0.9;}' < /proc/meminfo)k --vm-keep -m 1 -t 200s
   sleep 30s
   tail -n 15 /var/log/messages
   echo "Test Successful."
