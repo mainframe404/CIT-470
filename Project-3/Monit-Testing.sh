@@ -23,7 +23,7 @@ function ClientTest {
   pkill rsyslog
   
   tail -n 15 /var/log/messages
-  echo -e "Monit Sended The  Alerts and Restarted The Services"
+  echo -e "Monit Sended The Alerts and Restarted The Services"
 
   #Test The  RAM, CPU, and Disk Usage
   echo -e "Testing RAM, CPU, and Disk Usage"
