@@ -5,7 +5,8 @@
 #server IP parameter
 SERV=$1
 function installPack() {
-#Installing Sendmail and Start Sendmail 
+#Installing Sendmail and Start Sendmail
+yum install wget -y 
 yum install syslog -y
 yum install sendmail -y
 systemctl start sendmail
@@ -40,3 +41,4 @@ echo "Monit Configuration Complete!"
 }
 installPack
 getFile
+
