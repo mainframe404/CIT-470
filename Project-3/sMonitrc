@@ -155,8 +155,9 @@ set alert root@localhost                       # receive all alerts
 ## enable SSL for the HTTP interface.
 #
 set httpd port 2812 and
-     use address 10.2.7.244  # only accept connection from localhost
-     allow localhost        # allow localhost to connect to the server and
+     #use address localhost       # only accept connection from localhost
+     #allow localhost
+     #allow *                    # allow localhost to connect to the server and
      allow admin:monit      # require user 'admin' with password 'monit'
      #with ssl {            # enable SSL/TLS and set path to server certificate
      #    pemfile: /etc/ssl/certs/monit.pem
@@ -304,25 +305,25 @@ check process syslogd with pidfile /var/run/syslogd.pid
 check process sshd  with pidfile /var/run/sshd.pid
      start program = "/usr/bin/systemctl start sshd"
      stop program = "/usr/bin/systemctl stop sshd"
-     if failed port 22 prorocol ssh then restart
+     if failed port 22 protocol ssh then restart
      if 5 restarts within 5 cycles then timeout
      if 5 restarts within 5 cycles then alert
  
-check process httpd with pidfile /var/run/httpd/httpd.pid
-     start program = "/usr/bin/systemctl start httpd"
-     stop program = "/usr/bin/systemctl stop httpd"
+check process httpd with pidfile /usr/local/apache/logs/httpd.pid
+     start program = "/usr/bin/systemctl start apache"
+     stop program = "/usr/bin/systemctl stop apache"
      if 5 restarts within 5 cycles then timeout
      if 5 restarts within 5 cycles then alert
      
 check process slapd with pidfile /var/run/openldap/slapd.pid
-     start program ="/usr/bin/systemctl start slapd"
-     stop program ="/usr/bin/systemctl stop slapd"
+     start program = "/usr/bin/systemctl start slapd"
+     stop program = "/usr/bin/systemctl stop slapd"
      if 5 restarts within 5 cycles then timeout
      if 5 restarts within 5 cycles then alert
      
 check process NFS with pidfile /var/run/rpc.statd.pid
-     start program ="/usr/bin/systemctl start nfs"
-     stop program ="/usr/bin/systemctl stop nfs"
+     start program = "/usr/bin/systemctl start nfs"
+     stop program = "/usr/bin/systemctl stop nfs"
      if 5 restarts within 5 cycles then timeout
      if 5 restarts within 5 cycles then alert
      
