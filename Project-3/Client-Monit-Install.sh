@@ -6,6 +6,7 @@
 SERV=$1
 function installPack() {
 #Installing Sendmail and Start Sendmail 
+yum install syslog -y
 yum install sendmail -y
 systemctl start sendmail
 systemctl enable sendmail
@@ -18,13 +19,13 @@ yum install stress -y
 function getFile() {
 #Getting Client Monit File
 cd ~
-wget http://10.2.7.244/Client-Monit-Install
+wget http://10.2.7.244/cMonitrc
 
 #Backing Up Recent Monit File
 cp /etc/monitrc /etc/monitrc.BACK
 
 #Copying the Client Monit File Over to /etc/monitrc
-yes | cp Client-Monit-Install /etc/monitrc
+yes | cp cMonitrc /etc/monitrc
 
 #Initiating Monit 
 systemctl start monit
