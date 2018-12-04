@@ -304,7 +304,7 @@ check process syslogd with pidfile /var/run/syslogd.pid
 check process sshd  with pidfile /var/run/sshd.pid
      start program = "/usr/bin/systemctl start sshd"
      stop program = "/usr/bin/systemctl stop sshd"
-     if failed port 22 prorocol ssh then restart
+     if failed port 22 protocol ssh then restart
      if 5 restarts within 5 cycles then timeout
      if 5 restarts within 5 cycles then alert
  
