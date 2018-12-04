@@ -39,6 +39,7 @@ systemctl restart rsyslog
 yes | rm Client-Monit-Install
 echo "Monit Configuration Complete!"
 }
+firewall-cmd --add-port=514/tcp --add-port=514/udp --permanent
+firewall-cmd --reload
 installPack
 getFile
-
