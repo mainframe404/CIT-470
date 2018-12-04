@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #Installing Monit on Client 
 
 #server IP parameter
@@ -17,6 +16,7 @@ yum install epel-release -y
 yum install monit -y
 yum install stress -y
 }
+
 function getFile() {
 #Getting Client Monit File
 cd ~
@@ -26,7 +26,7 @@ wget http://10.2.7.244/cMonitrc
 cp /etc/monitrc /etc/monitrc.BACK
 
 #Copying the Client Monit File Over to /etc/monitrc
-yes | cp cMonitrc /etc/monitrc
+yes | mv cMonitrc /etc/monitrc
 
 #Initiating Monit 
 systemctl start monit
@@ -35,11 +35,13 @@ cp /etc/rsyslog.conf /etc/rsyslog.conf.BACK
 #Modifying rsyslog.conf
 sed -i 's/#*.* @@remote-host:514/*.* @'$SERV':514/g' /etc/rsyslog.conf
 systemctl restart rsyslog
-#Cleaning Up
-yes | rm 
 echo "Monit Configuration Complete!"
 }
+
+#Adding port 514 to firewall rules
 firewall-cmd --add-port=514/tcp --add-port=514/udp --permanent
 firewall-cmd --reload
+
+#Main
 installPack
 getFile
