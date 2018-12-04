@@ -36,7 +36,7 @@ cp /etc/rsyslog.conf /etc/rsyslog.conf.BACK
 sed -i 's/#*.* @@remote-host:514/*.* @'$SERV':514/g' /etc/rsyslog.conf
 systemctl restart rsyslog
 #Cleaning Up
-yes | rm Client-Monit-Install
+yes | rm 
 echo "Monit Configuration Complete!"
 }
 firewall-cmd --add-port=514/tcp --add-port=514/udp --permanent
