@@ -26,7 +26,7 @@ wget http://10.2.7.244/cMonitrc
 cp /etc/monitrc /etc/monitrc.BACK
 
 #Copying the Client Monit File Over to /etc/monitrc
-yes | mv cMonitrc /etc/monitrc
+mv -f cMonitrc /etc/monitrc
 
 #Initiating Monit 
 systemctl start monit
