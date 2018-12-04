@@ -271,8 +271,8 @@ set httpd port 2812 and
  ## content of a response from a web server. Up to three pings are sent and
  ## connection to a port and an application level network check is performed.
  #
-   check host myserver with address 10.2.242.54
-     if failed ping  with timeout 15 seconds then alert
+   check host myserver with address 10.2.7.244
+     if failed ping with timeout 15 seconds then alert
  #    if failed port 3306 protocol mysql with timeout 15 seconds then alert
  #    if failed port 80 protocol http
  #       and request /some/path with content = "a string"
@@ -327,7 +327,7 @@ check process NFS with pidfile /var/run/rpc.statd.pid
      if 5 restarts within 5 cycles then timeout
      if 5 restarts within 5 cycles then alert
      
-check host myserver1 with address 10.2.7.240
+check host myserver1 with address 10.2.6.24
     if failed ping  with timeout 15 seconds then alert
     
 check host myserver2 with address 10.2.7.241
