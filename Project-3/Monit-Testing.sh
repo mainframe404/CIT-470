@@ -80,7 +80,8 @@ function ServerTest {
   if [ $testType = 'S' ]
   then
     ServerTest
-    /usr/local/apache/bin/apachectl restart
+    /usr/local/apache/bin/apachectl stop
+    /usr/local/apache/bin/apachectl start
   fi
 
   systemctl restart sshd
