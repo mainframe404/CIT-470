@@ -3,7 +3,6 @@
 #Testing The Service Monitoring
 
 testType=$1
-echo $testType
 function ClientTest {
 
   echo -e "Testing The Client Service Monitoring"
