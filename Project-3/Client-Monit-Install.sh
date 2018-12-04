@@ -27,6 +27,7 @@ cp /etc/monitrc /etc/monitrc.BACK
 
 #Copying the Client Monit File Over to /etc/monitrc
 mv -f cMonitrc /etc/monitrc
+rm -f sMonitrc
 
 #Initiating Monit 
 systemctl start monit
