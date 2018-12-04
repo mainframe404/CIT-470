@@ -91,3 +91,4 @@ function ServerTest {
   systemctl restart rsyslog
   systemctl restart slapd
   systemctl restart nfs
+  monit reload
