@@ -4,7 +4,6 @@
 
 testType=$1
 function ClientTest {
-
   echo -e "Testing The Client Service Monitoring"
   
   #Kill SSH
@@ -36,8 +35,8 @@ function ClientTest {
  
   echo -e "Restarting the stopped processes"
 }
-function ServerTest {
 
+function ServerTest {
   echo -e "Testing The Server Service Monitoring"
 
   #Kill SSH
@@ -72,20 +71,21 @@ function ServerTest {
 
   echo -e "Restarting the stopped processes"
 }
-  if [ $testType  = 'C' ] 
+
+if [ $testType  = 'C' ] 
   then  
     ClientTest
-  fi
+fi
 
-  if [ $testType = 'S' ]
+if [ $testType = 'S' ]
   then
     ServerTest
     /usr/local/apache/bin/apachectl stop
     /usr/local/apache/bin/apachectl start
-  fi
+fi
 
-  systemctl restart sshd
-  systemctl restart rsyslog
-  systemctl restart slapd
-  systemctl restart nfs
-  monit reload
+systemctl restart sshd
+systemctl restart rsyslog
+systemctl restart slapd
+systemctl restart nfs
+monit reload
