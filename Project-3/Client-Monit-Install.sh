@@ -27,6 +27,7 @@ cp /etc/monitrc /etc/monitrc.BACK
 
 #Copying the Client Monit File Over to /etc/monitrc
 mv -f cMonitrc /etc/monitrc
+chmod 700 /etc/monitrc
 rm -f sMonitrc Server-Monit-Install.sh
 
 #Initiating Monit 
@@ -39,10 +40,10 @@ systemctl restart rsyslog
 echo "Monit Configuration Complete!"
 }
 
+#Main
 #Adding port 514 to firewall rules
 firewall-cmd --add-port=514/tcp --add-port=514/udp --permanent
 firewall-cmd --reload
 
-#Main
 installPack
 getFile
